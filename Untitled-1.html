@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Công Việc</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+        input, button {
+            margin: 5px;
+            padding: 8px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            background: #f3f3f3;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quản Lý Công Việc</h2>
+    <input type="text" id="taskInput" placeholder="Nhập công việc...">
+    <button onclick="addTask()">Thêm</button>
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        function renderTasks() {
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            tasks.forEach((task, index) => {
+                taskList.innerHTML += `
+                    <li>
+                        <span>${task}</span>
+                        <div>
+                            <button onclick="editTask(${index})">Sửa</button>
+                            <button onclick="deleteTask(${index})">Xóa</button>
+                        </div>
+                    </li>
+                `;
+            });
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const task = taskInput.value.trim();
+            if (task) {
+                tasks.push(task);
+                taskInput.value = "";
+                renderTasks();
+            }
+        }
+
+        function editTask(index) {
+            const newTask = prompt("Chỉnh sửa công việc:", tasks[index]);
+            if (newTask) {
+                tasks[index] = newTask;
+                renderTasks();
+            }
+        }
+
+        function deleteTask(index) {
+            if (confirm("Bạn có chắc muốn xóa công việc này?")) {
+                tasks.splice(index, 1);
+                renderTasks();
+            }
+        }
+
+        renderTasks();
+    </script>
+</body>
+</html>
