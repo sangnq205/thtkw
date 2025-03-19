@@ -2,11 +2,9 @@ function calculateRectangleArea() {
     let length = prompt("Nhập chiều dài của hình chữ nhật:");
     let width = prompt("Nhập chiều rộng của hình chữ nhật:");
     
-    // Chuyển đổi chuỗi nhập vào thành số
     length = parseFloat(length);
     width = parseFloat(width);
-    
-    // Kiểm tra tính hợp lệ của dữ liệu nhập
+
     if (isNaN(length) || isNaN(width)) {
         alert("Vui lòng nhập số hợp lệ!");
         return;
@@ -21,5 +19,4 @@ function calculateRectangleArea() {
     alert(`Diện tích của hình chữ nhật là: ${area}`);
 }
 
-// Gọi hàm để chạy chương trình
 calculateRectangleArea();
