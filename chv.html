@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chơi đố vui</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .quiz-container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; }
+        .options button { display: block; width: 100%; margin: 5px 0; padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Trò chơi đố vui</h1>
+        <p id="question"></p>
+        <div id="options" class="options"></div>
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Ai là tác giả của tác phẩm 'Truyện Kiều'?",
+                options: ["Nguyễn Du", "Nguyễn Trãi", "Hồ Xuân Hương", "Tố Hữu"],
+                answer: "Nguyễn Du",
+                hint: "Ông là một nhà thơ lớn của Việt Nam thời Nguyễn."
+            },
+            {
+                question: "Sông nào dài nhất thế giới?",
+                options: ["Amazon", "Mississippi", "Nile", "Yangtze"],
+                answer: "Nile",
+                hint: "Con sông này nằm ở châu Phi."
+            },
+            {
+                question: "Ai là người phát minh ra bóng đèn?",
+                options: ["Nikola Tesla", "Albert Einstein", "Thomas Edison", "Isaac Newton"],
+                answer: "Thomas Edison",
+                hint: "Ông là nhà phát minh người Mỹ."
+            },
+            {
+                question: "Hành tinh nào gần Mặt Trời nhất?",
+                options: ["Sao Kim", "Sao Hỏa", "Sao Thủy", "Sao Mộc"],
+                answer: "Sao Thủy",
+                hint: "Hành tinh này có quỹ đạo gần Mặt Trời nhất trong hệ Mặt Trời."
+            },
+            {
+                question: "Quốc gia nào có diện tích lớn nhất thế giới?",
+                options: ["Trung Quốc", "Hoa Kỳ", "Nga", "Canada"],
+                answer: "Nga",
+                hint: "Đây là quốc gia nằm trên hai châu lục Á - Âu."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const feedbackElement = document.getElementById("feedback");
+
+        function loadQuestion() {
+            const questionData = questions[currentQuestionIndex];
+            questionElement.textContent = questionData.question;
+            optionsElement.innerHTML = "";
+            feedbackElement.textContent = "";
+
+            questionData.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            const questionData = questions[currentQuestionIndex];
+            if (selectedOption === questionData.answer) {
+                feedbackElement.textContent = "Chính xác!";
+                feedbackElement.style.color = "green";
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    setTimeout(loadQuestion, 1000);
+                } else {
+                    setTimeout(() => {
+                        questionElement.textContent = "Bạn đã hoàn thành trò chơi!";
+                        optionsElement.innerHTML = "";
+                    }, 1000);
+                }
+            } else {
+                feedbackElement.textContent = `Sai rồi! Gợi ý: ${questionData.hint}`;
+                feedbackElement.style.color = "red";
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
